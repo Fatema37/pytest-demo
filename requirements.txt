@@ -1,3 +1,5 @@
 pytest
 requests
 pytest-html
+pytest-cov
+pytest-rerunfailures

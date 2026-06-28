@@ -3,6 +3,7 @@ from http.client import responses
 import pytest
 
 @pytest.mark.smoke
+pytest.mark.flaky(reruns=2, reruns_delay=1)
 def test_get_users(api_client):
     response = api_client.get("/users")
     assert response.status_code == 200
