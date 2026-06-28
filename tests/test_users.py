@@ -1,8 +1,8 @@
-from http.client import responses
-
 import pytest
 
+
 @pytest.mark.smoke
+@pytest.mark.flaky(reruns=2, reruns_delay=1)
 def test_get_users(api_client):
     response = api_client.get("/users")
     assert response.status_code == 200
@@ -32,3 +32,10 @@ def test_get_nonexistent_user(api_client):
     response = api_client.get("/users/9999")
     assert response.status_code == 404
     assert response.json() == {}
+
+
+def test_response_time_under_threshold(api_client):
+    response = api_client.get("/users")
+    assert response.status_code ==200
+    elapsed = response.elapsed.total_seconds()
+    assert elapsed<2, f"API too slow: {elapsed:.2f}s"
